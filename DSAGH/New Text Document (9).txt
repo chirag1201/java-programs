@@ -1,0 +1,96 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct BSTnode{
+	int data;
+	struct BSTnode *leftnode;
+	struct BSTnode *rightnode;
+	
+};
+
+struct BSTnode *root=NULL;
+struct BSTnode *findnode(struct BSTnode *root);
+struct BSTnode *insert(struct BSTnode *root,int data);
+void inorder(struct BSTnode *root);
+void preorder(struct BSTnode *root);
+void postorder(struct BSTnode *root);
+int main(){
+	int option=0,data;
+	while(option!=6){
+		printf("\n 1 Enter 1 to create BST");
+		printf("\n 2 Enter 2 to search a node in BST");
+		printf("\n 3 Enter 3 to print inorder");
+		printf("\n 4 Enter 4 to print preorder");
+		printf("\n 5 Enter 5 to print postorder");
+		printf("\n 6 Enter 6 to exit");
+		scanf("%d",&option);
+		switch(option){
+			case 1:
+				printf("\nEnter data : ");
+				scanf("%d",&data);
+				root=insert(root,data);
+				printf("\n BST created\n");
+				break;
+			case 3:
+			    inorder(root);
+				break;
+			case 4:
+				preorder(root);
+				break;
+			case 5:
+				postorder(root);
+				break;
+			case 6:
+				break;
+			default :
+				printf("\nEnter valid choise\n");
+		}
+	}
+	return 0;
+}
+
+struct BSTnode *insert(struct BSTnode *root,int data){
+	
+	if(root==NULL){
+	struct BSTnode *newnode;
+	newnode=(struct BSTnode*)malloc(sizeof(struct BSTnode));
+	newnode->data=data;
+	newnode->leftnode=NULL;
+	newnode->rightnode=NULL;
+	return newnode;
+	}
+	if(data<root->data){
+		root->leftnode=insert(root->leftnode,data);
+	}
+	else{
+		root->rightnode=insert(root->rightnode,data);
+	}
+	return root;
+}
+void inorder(struct BSTnode *root){
+	if(root==NULL){
+		return;
+	}
+	inorder(root->leftnode);
+	printf("%d ",root->data);
+	inorder(root->rightnode);
+	return;
+}
+void preorder(struct BSTnode *root){
+	if(root==NULL)
+	return;
+	
+	printf("%d ",root->data);
+	preorder(root->leftnode);
+	preorder(root->rightnode);
+	return;
+}
+void postorder(struct BSTnode *root){
+	if(root==NULL)
+	return;
+	
+	postorder(root->leftnode);
+	postorder(root->rightnode);
+	printf("%d ",root->data);
+	return;
+}

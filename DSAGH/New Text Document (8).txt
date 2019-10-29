@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define size 50
+int arr[size],si=0,ei=size-1;
+
+void quicksort(int arr[size],int si,int ei);
+int partiton(int arr[size],int si,int ei);
+void print(int arr[size],int si,int ei);
+void mergesort(int arr[size],int si,int ei);
+void merge(int arr[size],int si,int ei);
+void selectionsort(int arr[size],int ei);
+int main(){
+	int option=0,n,i;
+	while(option!=4){
+		printf("\n1 Enter 1 to do quicksort");
+		printf("\n2 Enter 2 to do mergesort");
+		printf("\n3 Enter 3 to do selectionsort");
+		printf("\n4 Enter 4 to do exit\n");
+		scanf("%d",&option);
+		
+		switch(option){
+			case 1:
+				printf("\nEnter the size of array : ");
+				scanf("%d",&n);
+				for(i=0;i<n;i++){
+				printf("\nEnter element : ");
+				scanf("%d",&arr[i]);
+				}
+				quicksort(arr,0,n-1);
+				printf("\nSorted elements are : ");
+				print(arr,0,n-1);
+				break;
+			case 2:
+				printf("\nEnter the size of array : ");
+				scanf("%d",&n);
+				for(i=0;i<n;i++){
+				printf("\nEnter element : ");
+				scanf("%d",&arr[i]);
+				}
+				mergesort(arr,0,n-1);
+				printf("\nSorted elements are : ");
+				print(arr,0,n-1);
+				break;
+			case 3:
+				printf("\nEnter the size of array : ");
+				scanf("%d",&n);
+				for(i=0;i<n;i++){
+				printf("\nEnter element : ");
+				scanf("%d",&arr[i]);
+				}
+				selectionsort(arr,n-1);
+				printf("\nSorted elements are : ");
+				print(arr,0,n-1);
+				break;
+			case 4:
+				break;
+			default :
+				printf("\nInvalid Input\n");
+				break;
+		}
+	}
+}
+void quicksort(int arr[],int si,int ei){
+	if(si>=ei){
+		return;
+	}
+	int partpos=partition(arr,si,ei);
+	quicksort(arr,si,partpos-1);
+	quicksort(arr,partpos+1,ei);
+	return;
+}
+int partition(int arr[],int si,int ei){
+	int pivot=si;
+	int count=0,a;
+	for(a=si;a<=ei;a++){
+		if(arr[a]<arr[pivot])
+		count++;
+	}
+	int temp=arr[si];
+	arr[si]=arr[si+count];
+	arr[si+count]=temp;
+	pivot=si+count;
+	//pivot at its position
+	int i=si,j=ei;
+	while(i<pivot && j>pivot){
+		if(arr[i]<arr[pivot]){
+			i++;
+		}
+		else{
+			if(arr[j]>arr[pivot]){
+				j--;
+			}
+			else{
+				int temp=arr[i];
+				arr[i]=arr[j];
+				arr[j]=temp;
+				i++;
+				j--;
+			}
+		}
+	}
+	return si+count;
+}
+void print(int arr[],int si,int ei){
+	int i;
+	for(i=si;i<=ei;i++){
+		printf("%d ",arr[i]);
+	}
+	printf("\n");
+}
+void mergesort(int arr[],int si,int ei){
+	if(si>=ei){
+		return;
+	}
+
+	int mid=(si+ei)/2;
+	mergesort(arr,si,mid);
+	mergesort(arr,mid+1,ei);
+	merge(arr,si,ei);
+	return;
+	
+}
+void merge(int arr[],int si,int ei){
+	int ans[ei-si+1];
+	int mid =(si+ei)/2;
+	int i=si,j=mid+1;
+	int k=0;
+	while(i<=mid && j<=ei){
+		if(arr[i]<arr[j]){
+			ans[k]=arr[i];
+			i++;
+			k++;
+	}
+	else{
+		ans[k]=arr[j];
+		j++;
+		k++;
+	}
+}
+while(i<=mid){
+	ans[k]=arr[i];
+	i++;
+	k++;
+}
+while(j<=ei){
+	ans[k]=arr[j];
+	j++;
+	k++;
+}
+int a=0;
+k=0;
+for(a=si;a<=ei;a++){
+	arr[a]=ans[k];
+	k++;
+}
+return;
+}
+void selectionsort(int arr[],int ei){
+	int i=0,j,small,index;
+	while(i<ei){
+		j=i;
+		small=arr[i];
+		index=i;
+		while(j<=ei){
+			if(arr[j]<small){
+				small=arr[j];
+				index=j;
+				j++;
+			}
+			else
+			j++;
+		}
+		int temp=arr[i];
+		arr[i]=arr[index];
+		arr[index]=temp;
+		i++;
+	}
+	return;
+}
