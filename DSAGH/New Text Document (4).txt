@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+char s[100],infix[100],postfix[100];
+int top =-1;
+void infix_to_post(int n);
+void push(char val)
+{
+	if(top == -1)
+	{
+		top++;
+		s[top] = '('
+	}
+
+	top++;
+	s[top]=val;
+
+}
+char pop()
+{
+	char e = s[top];
+	top--;
+	return e;
+
+}
+void peek()
+{
+	return s[top];
+}
+
+int pri(char elem)//priority checker
+{
+	int p;
+	switch(e)
+		case '+':
+		case '-':
+		{
+			p = 1;
+		}
+		break;
+		case '%':
+		case '*':
+		case '/':
+		{
+			p = 2;
+		}
+		break:
+		default:
+			p=0;
+	}
+	return p;
+}
+int pri_checker(char x, char y)
+{
+	if(pri(x) < pri(y))
+	{
+		return 1;
+	}
+	else
+		return 0;
+}
+
+void main()
+{
+	printf("Enter the infix expression:");
+	scanf("%s",&infix);
+	strcat(s,')');
+	infix_to_postfix(strlen(infix));
+
+	getch();
+}
+void infix_to_postfix(int n)
+{
+	int i,x,j;
+	char elem;
+	j=0;
+	for(int i =0 ; i<=n-1 ; i++)
+	{
+		x=infix[i] - '0';//convert char to int
+		if(x<0 && infix[i] != ')')
+		{
+			while(pri_checker(infix[i],peek()) == 1)
+			{
+				elem=pop();
+				if(elem != '(')
+				{
+					postfix[j]=elem;
+					j++;
+				}
+			}
+			if(infix[i] == ')')
+			{
+				while(peek() != '(')
+				{
+					postfix[j]=pop();
+					j++;
+				}
+				pop();
+
+			}
+			else
+			{
+				push(infix[i]);
+			}
+		}
+		else
+		{
+			postfix[j]=infix[i];
+			j++;
+		}
+	}
+}
